@@ -5,5 +5,5 @@ package io.ltebean.uploader;
  */
 public interface Uploader {
 
-    public String upload(String filePath, String fileName);
+    String upload(String filePath, String fileName);
 }

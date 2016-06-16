@@ -1,11 +1,13 @@
 package io.ltebean.api.dto;
 
+import org.springframework.http.HttpStatus;
+
 /**
  * Created by leo on 16/5/19.
  */
 public class Response {
 
-    public int code = 200;
+    public int code = HttpStatus.OK.value();
 
     public String message = "";
 
