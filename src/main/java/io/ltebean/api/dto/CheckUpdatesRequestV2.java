@@ -1,5 +1,7 @@
 package io.ltebean.api.dto;
 
+import java.util.List;
+
 /**
  * Created by ltebean on 16/5/6.
  */
@@ -7,7 +9,7 @@ public class CheckUpdatesRequestV2 {
 
     public String secret;
 
-    public PackageInfo packageInfo;
+    public List<PackageInfo> packageInfos;
 
     public static class PackageInfo {
 

@@ -2,6 +2,7 @@ package io.ltebean.api;
 
 import com.github.zafarkhaja.semver.Version;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import io.ltebean.api.dto.CheckUpdatesRequest;
 import io.ltebean.api.dto.CheckUpdatesRequestV2;
 import io.ltebean.api.dto.Response;
@@ -68,9 +69,14 @@ public class CheckUpdatesAPI {
             return response;
         }
         List<Package> allPackages = packageMapper.findByAppId(app.id);
-        Preconditions.checkArgument(request.packageInfo != null, "package info cannot be empty");
-        Optional<Package> satisfied = findLatest(allPackages, request.packageInfo.name, Optional.empty());
-        response.data = satisfied.orElse(null);
+        Preconditions.checkArgument(request.packageInfos != null && !request.packageInfos.isEmpty(), "package infos cannot be empty");
+        List<Package> allSatisfiedPackages = Lists.newArrayListWithExpectedSize(request.packageInfos.size());
+        for (CheckUpdatesRequestV2.PackageInfo packageInfo : request.packageInfos) {
+            Optional<Package> latest = findLatest(allPackages, packageInfo.name, Optional.empty());
+            Preconditions.checkArgument(latest.isPresent(), "cannot find package info for " + packageInfo.name);
+            allSatisfiedPackages.add(latest.get());
+        }
+        response.data = allSatisfiedPackages;
         return response;
     }
 
